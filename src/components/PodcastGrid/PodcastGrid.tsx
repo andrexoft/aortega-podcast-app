@@ -11,10 +11,11 @@ interface PodcastGridProps {
 export function PodcastGrid({ podcasts }: PodcastGridProps) {
   return (
     <div className={styles.grid}>
-      {podcasts.map((podcast) => (
+      {podcasts.map((podcast, index) => (
         <PodcastCard
           key={podcast.id}
           podcast={podcast}
+          priority={index === 0}
         />
       ))}
     </div>

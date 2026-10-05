@@ -1,7 +1,7 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--spacing-xl);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
 
 /* Tablet */
@@ -20,6 +20,7 @@
   }
 }
 
+/* Small mobile */
 @media (max-width: 400px) {
   .grid {
     grid-template-columns: 1fr;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { PodcastCard } from '@/components/PodcastCard/PodcastCard';
+import { PodcastGrid } from '@/components/PodcastGrid/PodcastGrid';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { usePodcasts } from '@/hooks/usePodcasts';
 
@@ -29,7 +29,7 @@ export default function HomePage() {
 
   return (
     <main>
-      <h1>Top Podcasts</h1>
+      <h1>Podcaster</h1>
 
       <SearchBar
         value={search}
@@ -38,15 +38,7 @@ export default function HomePage() {
 
       <p>Total de podcasts: {filteredPodcasts.length}</p>
 
-      <div>
-        {filteredPodcasts.map((podcast, index) => (
-          <PodcastCard
-            key={podcast.id}
-            podcast={podcast}
-            priority={index === 0}
-          />
-        ))}
-      </div>
+      <PodcastGrid podcasts={filteredPodcasts} />
     </main>
   );
 }
