@@ -5,9 +5,13 @@ import styles from './PodcastCard.module.css';
 
 interface PodcastCardProps {
   podcast: Podcast;
+  priority?: boolean;
 }
 
-export function PodcastCard({ podcast }: PodcastCardProps) {
+export function PodcastCard({
+  podcast,
+  priority = false,
+}: PodcastCardProps) {
   return (
     <article className={styles.card}>
       <Link
@@ -21,6 +25,8 @@ export function PodcastCard({ podcast }: PodcastCardProps) {
           width={180}
           height={180}
           className={styles.image}
+          style={{ width: '100%', height: 'auto' }}
+          priority={priority}
         />
 
         <div className={styles.content}>
