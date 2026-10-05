@@ -1,7 +1,6 @@
+import Image from 'next/image';
 import Link from 'next/link';
-
 import type { Podcast } from '@/types/podcast';
-
 import styles from './PodcastCard.module.css';
 
 interface PodcastCardProps {
@@ -16,9 +15,11 @@ export function PodcastCard({ podcast }: PodcastCardProps) {
         className={styles.link}
         aria-label={`Ver podcast ${podcast.title}`}
       >
-        <img
+        <Image
           src={podcast.image}
           alt=""
+          width={180}
+          height={180}
           className={styles.image}
         />
 
