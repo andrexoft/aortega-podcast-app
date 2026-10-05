@@ -1,5 +1,6 @@
 'use client';
 
+import { PodcastCard } from '@/components/PodcastCard/PodcastCard';
 import { usePodcasts } from '@/hooks/usePodcasts';
 
 export default function HomePage() {
@@ -15,13 +16,14 @@ export default function HomePage() {
 
       <p>Total de podcasts: {podcasts.length}</p>
 
-      <ul>
+      <div>
         {podcasts.map((podcast) => (
-          <li key={podcast.id}>
-            {podcast.title} — {podcast.author}
-          </li>
+          <PodcastCard
+            key={podcast.id}
+            podcast={podcast}
+          />
         ))}
-      </ul>
+      </div>
     </main>
   );
 }
