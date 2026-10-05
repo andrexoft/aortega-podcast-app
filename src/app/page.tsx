@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { PodcastGrid } from '@/components/PodcastGrid/PodcastGrid';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { usePodcasts } from '@/hooks/usePodcasts';
+import styles from './page.module.css';
 
 export default function HomePage() {
   const { podcasts, isLoading } = usePodcasts();
@@ -28,15 +29,15 @@ export default function HomePage() {
   }
 
   return (
-    <main>
-      <h1>Podcaster</h1>
+    <main className={styles.main}>
+      <div className={styles.toolbar}>
+        <p className={styles.count}>{filteredPodcasts.length}</p>
 
-      <SearchBar
-        value={search}
-        onChange={setSearch}
-      />
-
-      <p>Total de podcasts: {filteredPodcasts.length}</p>
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+        />
+      </div>
 
       <PodcastGrid podcasts={filteredPodcasts} />
     </main>

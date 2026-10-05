@@ -9,11 +9,8 @@
 
 .container {
   width: 100%;
-  max-width: var(--content-max-width);
   height: 100%;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-
+  padding: 0 var(--spacing-md);
   display: flex;
   align-items: center;
 }
@@ -21,12 +18,10 @@
 .title {
   margin: 0;
   padding: 0;
-
-  color: var(--color-text);
+  color: var(--color-primary);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
-
   text-decoration: none;
 }
 
@@ -35,6 +30,7 @@
 }
 
 /* Tablet */
+
 @media (max-width: 768px) {
   .header {
     height: 64px;
@@ -50,6 +46,7 @@
 }
 
 /* Mobile */
+
 @media (max-width: 480px) {
   .header {
     height: 60px;

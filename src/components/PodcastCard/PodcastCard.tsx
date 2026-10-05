@@ -19,20 +19,22 @@ export function PodcastCard({
         className={styles.link}
         aria-label={`Ver podcast ${podcast.title}`}
       >
-        <Image
-          src={podcast.image}
-          alt=""
-          width={180}
-          height={180}
-          className={styles.image}
-          style={{ width: '100%', height: 'auto' }}
-          priority={priority}
-        />
+        <div className={styles.imageWrapper}>
+          <Image
+            src={podcast.image}
+            alt=""
+            width={180}
+            height={180}
+            className={styles.image}
+            priority={priority}
+          />
+        </div>
 
         <div className={styles.content}>
           <h2 className={styles.title}>{podcast.title}</h2>
-
-          <p className={styles.author}>{podcast.author}</p>
+          <p className={styles.author}>
+            Author: {podcast.author}
+          </p>
         </div>
       </Link>
     </article>
