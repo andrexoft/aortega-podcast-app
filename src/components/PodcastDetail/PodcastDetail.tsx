@@ -19,6 +19,20 @@ interface PodcastDetailProps {
   }[];
 }
 
+function formatDuration(duration: number): string {
+  const hours = Math.floor(duration / 3600);
+  const minutes = Math.floor((duration % 3600) / 60);
+  const seconds = duration % 60;
+
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
+  }
+
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
 export default function PodcastDetail({
   podcast,
   episodes,
@@ -28,6 +42,7 @@ export default function PodcastDetail({
       <aside className={styles.sidebar}>
         <Link href={`/podcast/${podcast.id}`}>
           <Image
+            className={styles.image}
             src={podcast.image}
             alt={podcast.title}
             width={300}
@@ -35,18 +50,15 @@ export default function PodcastDetail({
           />
         </Link>
 
-        <h1>{podcast.title}</h1>
+        <h1 className={styles.title}>{podcast.title}</h1>
 
-        <p>{podcast.author}</p>
+        <p className={styles.author}>{podcast.author}</p>
 
-        <div
-          className={styles.description}
-          dangerouslySetInnerHTML={{ __html: podcast.description }}
-        />
+        <p className={styles.description}>{podcast.description}</p>
       </aside>
 
       <main className={styles.content}>
-        <h2>Episodes: {episodes.length}</h2>
+        <h2 className={styles.episodesTitle}>Episodes: {episodes.length}</h2>
 
         <div className={styles.episodes}>
           {episodes.map((episode) => (
@@ -55,12 +67,17 @@ export default function PodcastDetail({
               href={`/podcast/${podcast.id}/episode/${episode.id}`}
               className={styles.episode}
             >
-              <div>
-                <h3>{episode.title}</h3>
-                <span>{episode.releaseDate}</span>
+              <div className={styles.episodeInfo}>
+                <h3 className={styles.episodeTitle}>{episode.title}</h3>
+
+                <span className={styles.episodeDate}>
+                  {episode.releaseDate}
+                </span>
               </div>
 
-              <span>{episode.duration}</span>
+              <span className={styles.episodeDuration}>
+                {formatDuration(episode.duration)}
+              </span>
             </Link>
           ))}
         </div>
