@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 
 import { getPodcastDetail } from '@/services/podcastService';
 import { getCachedData, setCachedData } from '@/lib/cache';
-import type { PodcastDetail } from '@/types/podcast';
+import type { Podcast, PodcastDetail } from '@/types/podcast';
 
 interface UsePodcastDetailResult {
   podcast: PodcastDetail | null;
   isLoading: boolean;
 }
+
+const PODCASTS_CACHE_KEY = 'top-podcasts';
 
 export function usePodcastDetail(
   podcastId: string,
@@ -30,8 +32,23 @@ export function usePodcastDetail(
 
         const fetchedPodcast = await getPodcastDetail(podcastId);
 
-        setCachedData(cacheKey, fetchedPodcast);
-        setPodcast(fetchedPodcast);
+        const cachedPodcasts =
+          getCachedData<Podcast[]>(PODCASTS_CACHE_KEY);
+
+        const cachedPodcastFromHome = cachedPodcasts?.find(
+          (item) => item.id === podcastId,
+        );
+
+        const podcastDetail: PodcastDetail = {
+          ...fetchedPodcast,
+          description:
+            fetchedPodcast.description ||
+            cachedPodcastFromHome?.description ||
+            '',
+        };
+
+        setCachedData(cacheKey, podcastDetail);
+        setPodcast(podcastDetail);
       } catch (error) {
         console.error(error);
       } finally {

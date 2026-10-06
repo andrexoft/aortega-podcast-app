@@ -33,6 +33,26 @@ function formatDuration(duration: number): string {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+function formatDate(date: string): string {
+  const parsedDate = new Date(date);
+
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(parsedDate);
+}
+
+function stripHtml(html: string): string {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  doc.querySelectorAll('br').forEach((br) => {
+    br.replaceWith('\n');
+  });
+
+  return doc.body.textContent?.trim() ?? '';
+}
+
 export default function PodcastDetail({
   podcast,
   episodes,
@@ -40,7 +60,10 @@ export default function PodcastDetail({
   return (
     <div className={styles.container}>
       <aside className={styles.sidebar}>
-        <Link href={`/podcast/${podcast.id}`}>
+        <Link
+          href={`/podcast/${podcast.id}`}
+          className={styles.imageLink}
+        >
           <Image
             className={styles.image}
             src={podcast.image}
@@ -50,30 +73,49 @@ export default function PodcastDetail({
           />
         </Link>
 
-        <h1 className={styles.title}>{podcast.title}</h1>
+        <div className={styles.sidebarContent}>
+          <h1 className={styles.title}>{podcast.title}</h1>
 
-        <p className={styles.author}>{podcast.author}</p>
+          <p className={styles.author}>
+            by {podcast.author}
+          </p>
 
-        <p className={styles.description}>{podcast.description}</p>
+
+
+          <div className={styles.description}>
+            <p className={styles.descriptionTitle}>
+                Description:
+            </p>
+            {stripHtml(podcast.description)}
+          </div>
+        </div>
       </aside>
 
       <main className={styles.content}>
-        <h2 className={styles.episodesTitle}>Episodes: {episodes.length}</h2>
+        <h2 className={styles.episodesTitle}>
+          Episodes: {episodes.length}
+        </h2>
 
         <div className={styles.episodes}>
+          <div className={styles.episodesHeader}>
+            <span>Title</span>
+            <span>Date</span>
+            <span>Duration</span>
+          </div>
+
           {episodes.map((episode) => (
             <Link
               key={episode.id}
               href={`/podcast/${podcast.id}/episode/${episode.id}`}
               className={styles.episode}
             >
-              <div className={styles.episodeInfo}>
-                <h3 className={styles.episodeTitle}>{episode.title}</h3>
+              <span className={styles.episodeTitle}>
+                {episode.title}
+              </span>
 
-                <span className={styles.episodeDate}>
-                  {episode.releaseDate}
-                </span>
-              </div>
+              <span className={styles.episodeDate}>
+                {formatDate(episode.releaseDate)}
+              </span>
 
               <span className={styles.episodeDuration}>
                 {formatDuration(episode.duration)}
