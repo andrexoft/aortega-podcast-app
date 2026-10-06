@@ -1,5 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
+
+import { PodcastSidebar } from '@/components/PodcastSidebar/PodcastSidebar';
 
 import styles from './PodcastDetail.module.css';
 
@@ -43,53 +44,13 @@ function formatDate(date: string): string {
   }).format(parsedDate);
 }
 
-function stripHtml(html: string): string {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-
-  doc.querySelectorAll('br').forEach((br) => {
-    br.replaceWith('\n');
-  });
-
-  return doc.body.textContent?.trim() ?? '';
-}
-
 export default function PodcastDetail({
   podcast,
   episodes,
 }: PodcastDetailProps) {
   return (
     <div className={styles.container}>
-      <aside className={styles.sidebar}>
-        <Link
-          href={`/podcast/${podcast.id}`}
-          className={styles.imageLink}
-        >
-          <Image
-            className={styles.image}
-            src={podcast.image}
-            alt={podcast.title}
-            width={300}
-            height={300}
-          />
-        </Link>
-
-        <div className={styles.sidebarContent}>
-          <h1 className={styles.title}>{podcast.title}</h1>
-
-          <p className={styles.author}>
-            by {podcast.author}
-          </p>
-
-
-
-          <div className={styles.description}>
-            <p className={styles.descriptionTitle}>
-                Description:
-            </p>
-            {stripHtml(podcast.description)}
-          </div>
-        </div>
-      </aside>
+      <PodcastSidebar podcast={podcast} />
 
       <main className={styles.content}>
         <h2 className={styles.episodesTitle}>
