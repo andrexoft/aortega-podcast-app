@@ -663,7 +663,7 @@ Actualmente se cubren:
 
 ```text
 9 suites
-57 tests
+56 tests
 ```
 
 ### Áreas cubiertas

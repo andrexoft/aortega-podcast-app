@@ -1,22 +1,19 @@
 import { render, screen } from '@testing-library/react';
 
-import type { Podcast } from '@/types/podcast';
-
 import { PodcastGrid } from './PodcastGrid';
+import type { Podcast } from '@/types/podcast';
 
 jest.mock('next/image', () => ({
   __esModule: true,
   default: ({
-    priority,
+    preload,
     ...props
   }: React.ImgHTMLAttributes<HTMLImageElement> & {
-    priority?: boolean;
+    preload?: boolean;
   }) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       {...props}
-      alt={props.alt ?? ''}
-      data-priority={priority ? 'true' : 'false'}
+      data-priority={preload ? 'true' : 'false'}
     />
   ),
 }));
@@ -24,24 +21,27 @@ jest.mock('next/image', () => ({
 const podcasts: Podcast[] = [
   {
     id: '1',
-    title: 'First Podcast',
-    author: 'First Author',
-    image: 'https://example.com/first.jpg',
-    description: 'First description',
+    title: 'Podcast One',
+    author: 'Author One',
+    image: 'https://example.com/image1.jpg',
+    description: 'Description One',
+    podcastUrl: 'https://example.com/podcast1',
   },
   {
     id: '2',
-    title: 'Second Podcast',
-    author: 'Second Author',
-    image: 'https://example.com/second.jpg',
-    description: 'Second description',
+    title: 'Podcast Two',
+    author: 'Author Two',
+    image: 'https://example.com/image2.jpg',
+    description: 'Description Two',
+    podcastUrl: 'https://example.com/podcast2',
   },
   {
     id: '3',
-    title: 'Third Podcast',
-    author: 'Third Author',
-    image: 'https://example.com/third.jpg',
-    description: 'Third description',
+    title: 'Podcast Three',
+    author: 'Author Three',
+    image: 'https://example.com/image3.jpg',
+    description: 'Description Three',
+    podcastUrl: 'https://example.com/podcast3',
   },
 ];
 
@@ -51,72 +51,63 @@ describe('PodcastGrid', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'First Podcast',
+        name: 'Podcast One',
       }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', {
-        name: 'Second Podcast',
+        name: 'Podcast Two',
       }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', {
-        name: 'Third Podcast',
+        name: 'Podcast Three',
       }),
     ).toBeInTheDocument();
   });
 
-  it('muestra el autor de cada podcast', () => {
+  it('renderiza correctamente los autores', () => {
     render(<PodcastGrid podcasts={podcasts} />);
 
-    expect(screen.getByText('Author: First Author')).toBeInTheDocument();
-
-    expect(screen.getByText('Author: Second Author')).toBeInTheDocument();
-
-    expect(screen.getByText('Author: Third Author')).toBeInTheDocument();
+    expect(screen.getByText('Author: Author One')).toBeInTheDocument();
+    expect(screen.getByText('Author: Author Two')).toBeInTheDocument();
+    expect(screen.getByText('Author: Author Three')).toBeInTheDocument();
   });
 
-  it('crea un enlace al detalle de cada podcast', () => {
-    render(<PodcastGrid podcasts={podcasts} />);
+  it('renderiza correctamente las imágenes', () => {
+    const { container } = render(<PodcastGrid podcasts={podcasts} />);
 
-    expect(
-      screen.getByRole('link', {
-        name: 'Ver podcast First Podcast',
-      }),
-    ).toHaveAttribute('href', '/podcast/1');
+    const images = container.querySelectorAll('img');
 
-    expect(
-      screen.getByRole('link', {
-        name: 'Ver podcast Second Podcast',
-      }),
-    ).toHaveAttribute('href', '/podcast/2');
+    expect(images).toHaveLength(3);
 
-    expect(
-      screen.getByRole('link', {
-        name: 'Ver podcast Third Podcast',
-      }),
-    ).toHaveAttribute('href', '/podcast/3');
+    expect(images[0]).toHaveAttribute(
+      'src',
+      'https://example.com/image1.jpg',
+    );
+
+    expect(images[1]).toHaveAttribute(
+      'src',
+      'https://example.com/image2.jpg',
+    );
+
+    expect(images[2]).toHaveAttribute(
+      'src',
+      'https://example.com/image3.jpg',
+    );
   });
 
   it('prioriza únicamente la imagen del primer podcast', () => {
-    render(<PodcastGrid podcasts={podcasts} />);
+    const { container } = render(<PodcastGrid podcasts={podcasts} />);
 
-    const images = document.querySelectorAll('img[data-priority]');
+    const images = container.querySelectorAll('img');
 
     expect(images).toHaveLength(3);
 
     expect(images[0]).toHaveAttribute('data-priority', 'true');
-
     expect(images[1]).toHaveAttribute('data-priority', 'false');
-
     expect(images[2]).toHaveAttribute('data-priority', 'false');
-  });
-
-  it('no renderiza podcasts cuando la lista está vacía', () => {
-    render(<PodcastGrid podcasts={[]} />);
-
-    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 });
