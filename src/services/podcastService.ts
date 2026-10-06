@@ -87,14 +87,9 @@ export async function getPodcastDetail(
 
   const url = `${PODCAST_DETAIL_URL}?${params.toString()}`;
 
-  console.log('Fetching podcast detail:', url);
-
   const response = await fetch(url);
 
   const responseText = await response.text();
-
-  console.log('Apple response status:', response.status);
-  console.log('Apple response:', responseText);
 
   if (!response.ok) {
     throw new Error(
