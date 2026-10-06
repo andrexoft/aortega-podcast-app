@@ -23,7 +23,7 @@ export function PodcastCard({ podcast, priority = false }: PodcastCardProps) {
             width={180}
             height={180}
             className={styles.image}
-            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
           />
         </div>
 
