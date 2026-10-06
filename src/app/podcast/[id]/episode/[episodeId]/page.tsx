@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-
 import PodcastEpisodeDetail from '@/components/PodcastEpisodeDetail/PodcastEpisodeDetail';
 import { usePodcastDetail } from '@/hooks/usePodcastDetail';
+import { Loading } from '@/components/Loading/Loading';
 
 export default function PodcastEpisodeDetailPage() {
   const params = useParams<{
@@ -14,7 +14,7 @@ export default function PodcastEpisodeDetailPage() {
   const { podcast, isLoading } = usePodcastDetail(params.id);
 
   if (isLoading) {
-    return <main>Cargando episodio...</main>;
+    return <Loading message="Cargando podcast..." />;
   }
 
   if (!podcast) {

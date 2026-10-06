@@ -5,6 +5,7 @@ import { PodcastGrid } from '@/components/PodcastGrid/PodcastGrid';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { usePodcasts } from '@/hooks/usePodcasts';
 import styles from './page.module.css';
+import { Loading } from '@/components/Loading/Loading';
 
 export default function HomePage() {
   const { podcasts, isLoading } = usePodcasts();
@@ -25,7 +26,7 @@ export default function HomePage() {
   }, [podcasts, search]);
 
   if (isLoading) {
-    return <main>Cargando podcasts...</main>;
+    return <Loading message="Cargando podcasts..." />;
   }
 
   return (
