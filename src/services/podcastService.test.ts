@@ -187,30 +187,31 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 123,
-              collectionName: 'Test Podcast',
-              artistName: 'Test Author',
-              artworkUrl600: 'image-600.jpg',
-              artworkUrl100: 'image-100.jpg',
-              description: 'Podcast description',
-              feedUrl: 'https://example.com/feed',
-            },
-            {
-              kind: 'podcast-episode',
-              collectionId: 123,
-              trackId: 456,
-              trackName: 'Episode 1',
-              description: 'Episode description',
-              releaseDate: '2026-01-15T10:00:00Z',
-              trackTimeMillis: 125000,
-              episodeUrl: 'https://example.com/episode.mp3',
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+                collectionName: 'Test Podcast',
+                artistName: 'Test Author',
+                artworkUrl600: 'image-600.jpg',
+                artworkUrl100: 'image-100.jpg',
+                description: 'Podcast description',
+                feedUrl: 'https://example.com/feed',
+              },
+              {
+                kind: 'podcast-episode',
+                collectionId: 123,
+                trackId: 456,
+                trackName: 'Episode 1',
+                description: 'Episode description',
+                releaseDate: '2026-01-15T10:00:00Z',
+                trackTimeMillis: 125000,
+                episodeUrl: 'https://example.com/episode.mp3',
+              },
+            ],
+          }),
       } as Response);
 
       const result = await getPodcastDetail('123');
@@ -246,22 +247,23 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 123,
-              collectionName: 'Test Podcast',
-              artistName: 'Test Author',
-            },
-            {
-              kind: 'podcast-episode',
-              trackId: 456,
-              trackName: 'Episode 1',
-              trackTimeMillis: 3665000,
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+                collectionName: 'Test Podcast',
+                artistName: 'Test Author',
+              },
+              {
+                kind: 'podcast-episode',
+                trackId: 456,
+                trackName: 'Episode 1',
+                trackTimeMillis: 3665000,
+              },
+            ],
+          }),
       } as Response);
 
       const result = await getPodcastDetail('123');
@@ -274,17 +276,18 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 123,
-              collectionName: 'Test Podcast',
-              artistName: 'Test Author',
-              artworkUrl100: 'image-100.jpg',
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+                collectionName: 'Test Podcast',
+                artistName: 'Test Author',
+                artworkUrl100: 'image-100.jpg',
+              },
+            ],
+          }),
       } as Response);
 
       const result = await getPodcastDetail('123');
@@ -297,18 +300,19 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 123,
-            },
-            {
-              kind: 'podcast-episode',
-              trackId: 456,
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+              },
+              {
+                kind: 'podcast-episode',
+                trackId: 456,
+              },
+            ],
+          }),
       } as Response);
 
       const result = await getPodcastDetail('123');
@@ -338,26 +342,27 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 123,
-              collectionName: 'Test Podcast',
-              artistName: 'Test Author',
-            },
-            {
-              kind: 'podcast-episode',
-              trackId: 456,
-              trackName: 'Episode 1',
-            },
-            {
-              kind: 'artist',
-              trackId: 789,
-              trackName: 'Something else',
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+                collectionName: 'Test Podcast',
+                artistName: 'Test Author',
+              },
+              {
+                kind: 'podcast-episode',
+                trackId: 456,
+                trackName: 'Episode 1',
+              },
+              {
+                kind: 'artist',
+                trackId: 789,
+                trackName: 'Something else',
+              },
+            ],
+          }),
       } as Response);
 
       const result = await getPodcastDetail('123');
@@ -366,12 +371,44 @@ describe('podcastService', () => {
       expect(result.episodes[0].id).toBe('456');
     });
 
+    it('utiliza previewUrl cuando no existe episodeUrl', async () => {
+      const mockFetch = jest.mocked(global.fetch);
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 123,
+                collectionName: 'Test Podcast',
+                artistName: 'Test Author',
+              },
+              {
+                kind: 'podcast-episode',
+                trackId: 456,
+                trackName: 'Episode 1',
+                previewUrl: 'https://example.com/preview.mp3',
+              },
+            ],
+          }),
+      } as Response);
+
+      const result = await getPodcastDetail('123');
+
+      expect(result.episodes[0].audioUrl).toBe(
+        'https://example.com/preview.mp3',
+      );
+    });
+
     it('lanza un error cuando la petición del detalle falla', async () => {
       const mockFetch = jest.mocked(global.fetch);
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 404,
+        text: async () => 'Not Found',
       } as Response);
 
       await expect(getPodcastDetail('123')).rejects.toThrow(
@@ -384,16 +421,17 @@ describe('podcastService', () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({
-          results: [
-            {
-              kind: 'podcast',
-              collectionId: 999,
-              collectionName: 'Another Podcast',
-              artistName: 'Another Author',
-            },
-          ],
-        }),
+        text: async () =>
+          JSON.stringify({
+            results: [
+              {
+                kind: 'podcast',
+                collectionId: 999,
+                collectionName: 'Another Podcast',
+                artistName: 'Another Author',
+              },
+            ],
+          }),
       } as Response);
 
       await expect(getPodcastDetail('123')).rejects.toThrow(

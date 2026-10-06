@@ -51,11 +51,11 @@ export async function getTopPodcasts(): Promise<Podcast[]> {
   }));
 }
 
-const PODCAST_DETAIL_URL =
-  'https://itunes.apple.com/lookup?id={id}&media=podcast&entity=podcastEpisode&limit=20';
+const PODCAST_DETAIL_URL = 'https://itunes.apple.com/lookup';
 
 interface ApplePodcastDetailResponse {
   results: Array<{
+    wrapperType?: string;
     kind?: string;
     collectionId?: number;
     collectionName?: string;
@@ -64,24 +64,45 @@ interface ApplePodcastDetailResponse {
     artworkUrl100?: string;
     description?: string;
     feedUrl?: string;
+
     trackId?: number;
     trackName?: string;
     releaseDate?: string;
     trackTimeMillis?: number;
+
     episodeUrl?: string;
+    previewUrl?: string;
   }>;
 }
 
 export async function getPodcastDetail(
   podcastId: string,
 ): Promise<PodcastDetail> {
-  const response = await fetch(PODCAST_DETAIL_URL.replace('{id}', podcastId));
+  const params = new URLSearchParams({
+    id: podcastId,
+    media: 'podcast',
+    entity: 'podcastEpisode',
+    limit: '20',
+  });
+
+  const url = `${PODCAST_DETAIL_URL}?${params.toString()}`;
+
+  console.log('Fetching podcast detail:', url);
+
+  const response = await fetch(url);
+
+  const responseText = await response.text();
+
+  console.log('Apple response status:', response.status);
+  console.log('Apple response:', responseText);
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch podcast detail: ${response.status}`);
+    throw new Error(
+      `Failed to fetch podcast detail: ${response.status} ${responseText}`,
+    );
   }
 
-  const data: ApplePodcastDetailResponse = await response.json();
+  const data: ApplePodcastDetailResponse = JSON.parse(responseText);
 
   const podcastResult = data.results.find(
     (result) => result.collectionId?.toString() === podcastId,
@@ -99,14 +120,17 @@ export async function getPodcastDetail(
       description: episode.description ?? '',
       releaseDate: episode.releaseDate ?? '',
       duration: Math.floor((episode.trackTimeMillis ?? 0) / 1000),
-      audioUrl: episode.episodeUrl ?? '',
+      audioUrl: episode.episodeUrl ?? episode.previewUrl ?? '',
     }));
 
   return {
     id: podcastId,
     title: podcastResult.collectionName ?? '',
     author: podcastResult.artistName ?? '',
-    image: podcastResult.artworkUrl600 ?? podcastResult.artworkUrl100 ?? '',
+    image:
+      podcastResult.artworkUrl600 ??
+      podcastResult.artworkUrl100 ??
+      '',
     description: podcastResult.description ?? '',
     podcastUrl: podcastResult.feedUrl,
     episodes,
