@@ -21,9 +21,7 @@ export default function PodcastEpisodeDetailPage() {
     return <main>Podcast no encontrado</main>;
   }
 
-  const episode = podcast.episodes.find(
-    (item) => item.id === params.episodeId,
-  );
+  const episode = podcast.episodes.find((item) => item.id === params.episodeId);
 
   if (!episode) {
     return <main>Episodio no encontrado</main>;

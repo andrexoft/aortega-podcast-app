@@ -17,9 +17,7 @@ jest.mock('@/components/PodcastSidebar/PodcastSidebar', () => ({
       <p>{podcast.author}</p>
 
       {showBackLink && (
-        <a href={`/podcast/${podcast.id}`}>
-          ← Volver al podcast
-        </a>
+        <a href={`/podcast/${podcast.id}`}>← Return to podcast</a>
       )}
     </aside>
   ),
@@ -35,19 +33,13 @@ const podcast: Podcast = {
 
 const episode = {
   title: 'Test Episode',
-  description:
-    '<p>This is the episode description.</p>',
+  description: '<p>This is the episode description.</p>',
   audioUrl: 'https://example.com/episode.mp3',
 };
 
 describe('PodcastEpisodeDetail', () => {
   it('renderiza el título del episodio', () => {
-    render(
-      <PodcastEpisodeDetail
-        podcast={podcast}
-        episode={episode}
-      />,
-    );
+    render(<PodcastEpisodeDetail podcast={podcast} episode={episode} />);
 
     expect(
       screen.getByRole('heading', {
@@ -57,17 +49,10 @@ describe('PodcastEpisodeDetail', () => {
   });
 
   it('renderiza la descripción HTML del episodio', () => {
-    render(
-      <PodcastEpisodeDetail
-        podcast={podcast}
-        episode={episode}
-      />,
-    );
+    render(<PodcastEpisodeDetail podcast={podcast} episode={episode} />);
 
     expect(
-      screen.getByText(
-        'This is the episode description.',
-      ),
+      screen.getByText('This is the episode description.'),
     ).toBeInTheDocument();
   });
 
@@ -77,8 +62,7 @@ describe('PodcastEpisodeDetail', () => {
         podcast={podcast}
         episode={{
           ...episode,
-          description:
-            'Visita https://example.com para más información.',
+          description: 'Visita https://example.com para más información.',
         }}
       />,
     );
@@ -87,10 +71,7 @@ describe('PodcastEpisodeDetail', () => {
       name: 'https://example.com',
     });
 
-    expect(link).toHaveAttribute(
-      'href',
-      'https://example.com',
-    );
+    expect(link).toHaveAttribute('href', 'https://example.com');
   });
 
   it('abre las URLs externas en una nueva pestaña', () => {
@@ -99,8 +80,7 @@ describe('PodcastEpisodeDetail', () => {
         podcast={podcast}
         episode={{
           ...episode,
-          description:
-            'Visita https://example.com para más información.',
+          description: 'Visita https://example.com para más información.',
         }}
       />,
     );
@@ -110,10 +90,7 @@ describe('PodcastEpisodeDetail', () => {
     });
 
     expect(link).toHaveAttribute('target', '_blank');
-    expect(link).toHaveAttribute(
-      'rel',
-      'noopener noreferrer',
-    );
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('mantiene los enlaces HTML existentes', () => {
@@ -122,8 +99,7 @@ describe('PodcastEpisodeDetail', () => {
         podcast={podcast}
         episode={{
           ...episode,
-          description:
-            '<p>Visita <a href="https://openai.com">OpenAI</a>.</p>',
+          description: '<p>Visita <a href="https://openai.com">OpenAI</a>.</p>',
         }}
       />,
     );
@@ -132,37 +108,21 @@ describe('PodcastEpisodeDetail', () => {
       name: 'OpenAI',
     });
 
-    expect(link).toHaveAttribute(
-      'href',
-      'https://openai.com',
-    );
+    expect(link).toHaveAttribute('href', 'https://openai.com');
   });
 
   it('renderiza el reproductor de audio con la URL del episodio', () => {
-    render(
-      <PodcastEpisodeDetail
-        podcast={podcast}
-        episode={episode}
-      />,
-    );
+    render(<PodcastEpisodeDetail podcast={podcast} episode={episode} />);
 
     const audio = document.querySelector('audio');
 
     expect(audio).toBeInTheDocument();
-    expect(audio).toHaveAttribute(
-      'src',
-      'https://example.com/episode.mp3',
-    );
+    expect(audio).toHaveAttribute('src', 'https://example.com/episode.mp3');
     expect(audio).toHaveAttribute('controls');
   });
 
   it('muestra el enlace para volver al podcast', () => {
-    render(
-      <PodcastEpisodeDetail
-        podcast={podcast}
-        episode={episode}
-      />,
-    );
+    render(<PodcastEpisodeDetail podcast={podcast} episode={episode} />);
 
     expect(
       screen.getByRole('link', {

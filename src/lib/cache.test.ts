@@ -1,7 +1,4 @@
-import {
-  getCachedData,
-  setCachedData,
-} from './cache';
+import { getCachedData, setCachedData } from './cache';
 
 describe('cache', () => {
   beforeEach(() => {
@@ -34,11 +31,7 @@ describe('cache', () => {
 
     const now = Date.now();
 
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValue(
-        now + 24 * 60 * 60 * 1000 + 1,
-      );
+    jest.spyOn(Date, 'now').mockReturnValue(now + 24 * 60 * 60 * 1000 + 1);
 
     expect(getCachedData('podcast')).toBeNull();
     expect(localStorage.getItem('podcast')).toBeNull();
@@ -54,11 +47,7 @@ describe('cache', () => {
 
     const now = Date.now();
 
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValue(
-        now + 24 * 60 * 60 * 1000 - 1,
-      );
+    jest.spyOn(Date, 'now').mockReturnValue(now + 24 * 60 * 60 * 1000 - 1);
 
     expect(getCachedData('podcast')).toEqual(data);
   });

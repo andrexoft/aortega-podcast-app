@@ -42,9 +42,7 @@ describe('usePodcasts', () => {
   it('empieza en estado de carga', () => {
     mockGetCachedData.mockReturnValue(null);
 
-    mockGetTopPodcasts.mockReturnValue(
-      new Promise(() => {}),
-    );
+    mockGetTopPodcasts.mockReturnValue(new Promise(() => {}));
 
     const { result } = renderHook(() => usePodcasts());
 
@@ -62,9 +60,7 @@ describe('usePodcasts', () => {
     });
 
     expect(result.current.podcasts).toEqual(podcasts);
-    expect(mockGetCachedData).toHaveBeenCalledWith(
-      'top-podcasts',
-    );
+    expect(mockGetCachedData).toHaveBeenCalledWith('top-podcasts');
     expect(mockGetTopPodcasts).not.toHaveBeenCalled();
     expect(mockSetCachedData).not.toHaveBeenCalled();
   });
@@ -90,18 +86,13 @@ describe('usePodcasts', () => {
     renderHook(() => usePodcasts());
 
     await waitFor(() => {
-      expect(mockSetCachedData).toHaveBeenCalledWith(
-        'top-podcasts',
-        podcasts,
-      );
+      expect(mockSetCachedData).toHaveBeenCalledWith('top-podcasts', podcasts);
     });
   });
 
   it('finaliza la carga aunque el servicio falle', async () => {
     mockGetCachedData.mockReturnValue(null);
-    mockGetTopPodcasts.mockRejectedValue(
-      new Error('API error'),
-    );
+    mockGetTopPodcasts.mockRejectedValue(new Error('API error'));
 
     const consoleError = jest
       .spyOn(console, 'error')

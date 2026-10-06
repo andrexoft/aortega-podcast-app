@@ -13,9 +13,7 @@ describe('Loading', () => {
   it('renderiza un mensaje personalizado', () => {
     render(<Loading message="Cargando podcasts..." />);
 
-    expect(
-      screen.getByText('Cargando podcasts...'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Cargando podcasts...')).toBeInTheDocument();
   });
 
   it('tiene el estado accesible de carga', () => {
@@ -28,9 +26,7 @@ describe('Loading', () => {
     render(<Loading />);
 
     const status = screen.getByRole('status');
-    const spinner = status.querySelector(
-      '[aria-hidden="true"]',
-    );
+    const spinner = status.querySelector('[aria-hidden="true"]');
 
     expect(spinner).toBeInTheDocument();
   });

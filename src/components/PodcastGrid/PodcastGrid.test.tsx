@@ -71,17 +71,11 @@ describe('PodcastGrid', () => {
   it('muestra el autor de cada podcast', () => {
     render(<PodcastGrid podcasts={podcasts} />);
 
-    expect(
-      screen.getByText('Author: First Author'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Author: First Author')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Author: Second Author'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Author: Second Author')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Author: Third Author'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Author: Third Author')).toBeInTheDocument();
   });
 
   it('crea un enlace al detalle de cada podcast', () => {
@@ -109,26 +103,15 @@ describe('PodcastGrid', () => {
   it('prioriza únicamente la imagen del primer podcast', () => {
     render(<PodcastGrid podcasts={podcasts} />);
 
-    const images = document.querySelectorAll(
-      'img[data-priority]',
-    );
+    const images = document.querySelectorAll('img[data-priority]');
 
     expect(images).toHaveLength(3);
 
-    expect(images[0]).toHaveAttribute(
-      'data-priority',
-      'true',
-    );
+    expect(images[0]).toHaveAttribute('data-priority', 'true');
 
-    expect(images[1]).toHaveAttribute(
-      'data-priority',
-      'false',
-    );
+    expect(images[1]).toHaveAttribute('data-priority', 'false');
 
-    expect(images[2]).toHaveAttribute(
-      'data-priority',
-      'false',
-    );
+    expect(images[2]).toHaveAttribute('data-priority', 'false');
   });
 
   it('no renderiza podcasts cuando la lista está vacía', () => {

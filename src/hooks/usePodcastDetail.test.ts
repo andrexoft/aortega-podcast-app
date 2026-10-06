@@ -45,13 +45,9 @@ describe('usePodcastDetail', () => {
   it('empieza en estado de carga', () => {
     mockGetCachedData.mockReturnValue(null);
 
-    mockGetPodcastDetail.mockReturnValue(
-      new Promise(() => {}),
-    );
+    mockGetPodcastDetail.mockReturnValue(new Promise(() => {}));
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.podcast).toBeNull();
@@ -60,9 +56,7 @@ describe('usePodcastDetail', () => {
   it('utiliza el detalle almacenado en caché', async () => {
     mockGetCachedData.mockReturnValue(podcastDetail);
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -70,9 +64,7 @@ describe('usePodcastDetail', () => {
 
     expect(result.current.podcast).toEqual(podcastDetail);
 
-    expect(mockGetCachedData).toHaveBeenCalledWith(
-      'podcast-detail-123',
-    );
+    expect(mockGetCachedData).toHaveBeenCalledWith('podcast-detail-123');
 
     expect(mockGetPodcastDetail).not.toHaveBeenCalled();
     expect(mockSetCachedData).not.toHaveBeenCalled();
@@ -82,9 +74,7 @@ describe('usePodcastDetail', () => {
     mockGetCachedData.mockReturnValue(null);
     mockGetPodcastDetail.mockResolvedValue(podcastDetail);
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -92,9 +82,7 @@ describe('usePodcastDetail', () => {
 
     expect(result.current.podcast).toEqual(podcastDetail);
 
-    expect(mockGetCachedData).toHaveBeenCalledWith(
-      'podcast-detail-123',
-    );
+    expect(mockGetCachedData).toHaveBeenCalledWith('podcast-detail-123');
 
     expect(mockGetPodcastDetail).toHaveBeenCalledWith('123');
   });
@@ -117,9 +105,7 @@ describe('usePodcastDetail', () => {
     mockGetCachedData.mockReturnValue(null);
     mockGetPodcastDetail.mockResolvedValue(podcastDetail);
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -148,9 +134,7 @@ describe('usePodcastDetail', () => {
   it('no realiza una nueva petición cuando existe caché', async () => {
     mockGetCachedData.mockReturnValue(podcastDetail);
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -161,17 +145,13 @@ describe('usePodcastDetail', () => {
 
   it('finaliza la carga aunque el servicio falle', async () => {
     mockGetCachedData.mockReturnValue(null);
-    mockGetPodcastDetail.mockRejectedValue(
-      new Error('API error'),
-    );
+    mockGetPodcastDetail.mockRejectedValue(new Error('API error'));
 
     const consoleError = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
-    const { result } = renderHook(() =>
-      usePodcastDetail('123'),
-    );
+    const { result } = renderHook(() => usePodcastDetail('123'));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

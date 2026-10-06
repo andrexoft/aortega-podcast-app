@@ -34,10 +34,7 @@ export default function HomePage() {
       <div className={styles.toolbar}>
         <p className={styles.count}>{filteredPodcasts.length}</p>
 
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-        />
+        <SearchBar value={search} onChange={setSearch} />
       </div>
 
       <PodcastGrid podcasts={filteredPodcasts} />

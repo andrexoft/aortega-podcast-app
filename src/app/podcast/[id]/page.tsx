@@ -10,7 +10,7 @@ export default function PodcastDetailPage() {
   const { podcast, isLoading } = usePodcastDetail(params.id);
 
   if (isLoading) {
-     return <Loading message="Cargando episodio..." />;
+    return <Loading message="Cargando episodio..." />;
   }
 
   if (!podcast) {

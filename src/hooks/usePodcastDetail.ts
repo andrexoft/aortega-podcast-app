@@ -13,9 +13,7 @@ interface UsePodcastDetailResult {
 
 const PODCASTS_CACHE_KEY = 'top-podcasts';
 
-export function usePodcastDetail(
-  podcastId: string,
-): UsePodcastDetailResult {
+export function usePodcastDetail(podcastId: string): UsePodcastDetailResult {
   const [podcast, setPodcast] = useState<PodcastDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,8 +30,7 @@ export function usePodcastDetail(
 
         const fetchedPodcast = await getPodcastDetail(podcastId);
 
-        const cachedPodcasts =
-          getCachedData<Podcast[]>(PODCASTS_CACHE_KEY);
+        const cachedPodcasts = getCachedData<Podcast[]>(PODCASTS_CACHE_KEY);
 
         const cachedPodcastFromHome = cachedPodcasts?.find(
           (item) => item.id === podcastId,

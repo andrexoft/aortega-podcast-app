@@ -53,9 +53,7 @@ export default function PodcastDetail({
       <PodcastSidebar podcast={podcast} />
 
       <main className={styles.content}>
-        <h2 className={styles.episodesTitle}>
-          Episodes: {episodes.length}
-        </h2>
+        <h2 className={styles.episodesTitle}>Episodes: {episodes.length}</h2>
 
         <div className={styles.episodes}>
           <div className={styles.episodesHeader}>
@@ -70,9 +68,7 @@ export default function PodcastDetail({
               href={`/podcast/${podcast.id}/episode/${episode.id}`}
               className={styles.episode}
             >
-              <span className={styles.episodeTitle}>
-                {episode.title}
-              </span>
+              <span className={styles.episodeTitle}>{episode.title}</span>
 
               <span className={styles.episodeDate}>
                 {formatDate(episode.releaseDate)}

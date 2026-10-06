@@ -22,10 +22,7 @@ function formatEpisodeDescription(description: string): string {
 
   container.innerHTML = description;
 
-  const walker = document.createTreeWalker(
-    container,
-    NodeFilter.SHOW_TEXT,
-  );
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
 
   const textNodes: Text[] = [];
 
@@ -57,11 +54,7 @@ function formatEpisodeDescription(description: string): string {
       const start = match.index;
 
       if (start > lastIndex) {
-        fragment.append(
-          document.createTextNode(
-            text.slice(lastIndex, start),
-          ),
-        );
+        fragment.append(document.createTextNode(text.slice(lastIndex, start)));
       }
 
       const link = document.createElement('a');
@@ -77,18 +70,13 @@ function formatEpisodeDescription(description: string): string {
     }
 
     if (lastIndex < text.length) {
-      fragment.append(
-        document.createTextNode(text.slice(lastIndex)),
-      );
+      fragment.append(document.createTextNode(text.slice(lastIndex)));
     }
 
     textNode.replaceWith(fragment);
   });
 
-  return container.innerHTML.replace(
-    /(&nbsp;|\u00a0)+/g,
-    ' ',
-  );
+  return container.innerHTML.replace(/(&nbsp;|\u00a0)+/g, ' ');
 }
 
 export default function PodcastEpisodeDetail({
@@ -97,30 +85,19 @@ export default function PodcastEpisodeDetail({
 }: PodcastEpisodeDetailProps) {
   return (
     <div className={styles.container}>
-      <PodcastSidebar
-        podcast={podcast}
-        showBackLink
-      />
+      <PodcastSidebar podcast={podcast} showBackLink />
 
       <main className={styles.content}>
-        <h2 className={styles.episodeTitle}>
-          {episode.title}
-        </h2>
+        <h2 className={styles.episodeTitle}>{episode.title}</h2>
 
         <div
           className={styles.description}
           dangerouslySetInnerHTML={{
-            __html: formatEpisodeDescription(
-              episode.description,
-            ),
+            __html: formatEpisodeDescription(episode.description),
           }}
         />
 
-        <audio
-          className={styles.audio}
-          controls
-          src={episode.audioUrl}
-        />
+        <audio className={styles.audio} controls src={episode.audioUrl} />
       </main>
     </div>
   );

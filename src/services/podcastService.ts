@@ -75,9 +75,7 @@ interface ApplePodcastDetailResponse {
 export async function getPodcastDetail(
   podcastId: string,
 ): Promise<PodcastDetail> {
-  const response = await fetch(
-    PODCAST_DETAIL_URL.replace('{id}', podcastId),
-  );
+  const response = await fetch(PODCAST_DETAIL_URL.replace('{id}', podcastId));
 
   if (!response.ok) {
     throw new Error(`Failed to fetch podcast detail: ${response.status}`);
@@ -108,10 +106,7 @@ export async function getPodcastDetail(
     id: podcastId,
     title: podcastResult.collectionName ?? '',
     author: podcastResult.artistName ?? '',
-    image:
-      podcastResult.artworkUrl600 ??
-      podcastResult.artworkUrl100 ??
-      '',
+    image: podcastResult.artworkUrl600 ?? podcastResult.artworkUrl100 ?? '',
     description: podcastResult.description ?? '',
     podcastUrl: podcastResult.feedUrl,
     episodes,

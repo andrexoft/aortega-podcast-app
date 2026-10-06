@@ -30,10 +30,7 @@ export function PodcastSidebar({
 }: PodcastSidebarProps) {
   return (
     <aside className={styles.sidebar}>
-      <Link
-        href={`/podcast/${podcast.id}`}
-        className={styles.imageLink}
-      >
+      <Link href={`/podcast/${podcast.id}`} className={styles.imageLink}>
         <Image
           className={styles.image}
           src={podcast.image}
@@ -46,24 +43,17 @@ export function PodcastSidebar({
       <div className={styles.sidebarContent}>
         <h1 className={styles.title}>{podcast.title}</h1>
 
-        <p className={styles.author}>
-          by {podcast.author}
-        </p>
+        <p className={styles.author}>by {podcast.author}</p>
 
         <div className={styles.description}>
-          <p className={styles.descriptionTitle}>
-            Description:
-          </p>
+          <p className={styles.descriptionTitle}>Description:</p>
 
           {stripHtml(podcast.description)}
         </div>
 
         {showBackLink && (
-          <Link
-            href={`/podcast/${podcast.id}`}
-            className={styles.backLink}
-          >
-            ← Volver al podcast
+          <Link href={`/podcast/${podcast.id}`} className={styles.backLink}>
+            ← Return to podcast
           </Link>
         )}
       </div>

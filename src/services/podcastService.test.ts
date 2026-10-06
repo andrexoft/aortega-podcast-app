@@ -1,7 +1,4 @@
-import {
-  getPodcastDetail,
-  getTopPodcasts,
-} from './podcastService';
+import { getPodcastDetail, getTopPodcasts } from './podcastService';
 
 describe('podcastService', () => {
   beforeEach(() => {
@@ -94,9 +91,7 @@ describe('podcastService', () => {
                 'im:artist': {
                   label: 'Test Author',
                 },
-                'im:image': [
-                  { label: 'image-55.jpg' },
-                ],
+                'im:image': [{ label: 'image-55.jpg' }],
               },
             ],
           },
@@ -128,9 +123,7 @@ describe('podcastService', () => {
                 'im:artist': {
                   label: 'Test Author',
                 },
-                'im:image': [
-                  { label: 'image.jpg' },
-                ],
+                'im:image': [{ label: 'image.jpg' }],
               },
             ],
           },
@@ -162,9 +155,7 @@ describe('podcastService', () => {
                 'im:artist': {
                   label: 'Test Author',
                 },
-                'im:image': [
-                  { label: 'image.jpg' },
-                ],
+                'im:image': [{ label: 'image.jpg' }],
               },
             ],
           },

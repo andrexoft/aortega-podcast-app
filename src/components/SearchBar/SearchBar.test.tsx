@@ -5,12 +5,7 @@ import { SearchBar } from './SearchBar';
 
 describe('SearchBar', () => {
   it('renderiza el campo de búsqueda', () => {
-    render(
-      <SearchBar
-        value=""
-        onChange={jest.fn()}
-      />,
-    );
+    render(<SearchBar value="" onChange={jest.fn()} />);
 
     expect(
       screen.getByRole('searchbox', {
@@ -20,12 +15,7 @@ describe('SearchBar', () => {
   });
 
   it('muestra el valor recibido', () => {
-    render(
-      <SearchBar
-        value="spotify"
-        onChange={jest.fn()}
-      />,
-    );
+    render(<SearchBar value="spotify" onChange={jest.fn()} />);
 
     expect(
       screen.getByRole('searchbox', {
@@ -38,12 +28,7 @@ describe('SearchBar', () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
 
-    render(
-      <SearchBar
-        value=""
-        onChange={onChange}
-      />,
-    );
+    render(<SearchBar value="" onChange={onChange} />);
 
     await user.type(
       screen.getByRole('searchbox', {
@@ -67,12 +52,7 @@ describe('SearchBar', () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
 
-    render(
-      <SearchBar
-        value="react"
-        onChange={onChange}
-      />,
-    );
+    render(<SearchBar value="react" onChange={onChange} />);
 
     const input = screen.getByRole('searchbox', {
       name: 'Filter podcasts',

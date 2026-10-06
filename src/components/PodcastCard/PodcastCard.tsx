@@ -8,10 +8,7 @@ interface PodcastCardProps {
   priority?: boolean;
 }
 
-export function PodcastCard({
-  podcast,
-  priority = false,
-}: PodcastCardProps) {
+export function PodcastCard({ podcast, priority = false }: PodcastCardProps) {
   return (
     <article className={styles.card}>
       <Link
@@ -32,9 +29,7 @@ export function PodcastCard({
 
         <div className={styles.content}>
           <h2 className={styles.title}>{podcast.title}</h2>
-          <p className={styles.author}>
-            Author: {podcast.author}
-          </p>
+          <p className={styles.author}>Author: {podcast.author}</p>
         </div>
       </Link>
     </article>

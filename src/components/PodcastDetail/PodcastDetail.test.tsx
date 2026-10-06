@@ -5,11 +5,7 @@ import type { Podcast } from '@/types/podcast';
 import PodcastDetail from './PodcastDetail';
 
 jest.mock('@/components/PodcastSidebar/PodcastSidebar', () => ({
-  PodcastSidebar: ({
-    podcast,
-  }: {
-    podcast: Podcast;
-  }) => (
+  PodcastSidebar: ({ podcast }: { podcast: Podcast }) => (
     <aside>
       <h1>{podcast.title}</h1>
       <p>{podcast.author}</p>
@@ -48,12 +44,7 @@ const episodes = [
 
 describe('PodcastDetail', () => {
   it('renderiza la información del podcast', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
     expect(
       screen.getByRole('heading', {
@@ -61,18 +52,11 @@ describe('PodcastDetail', () => {
       }),
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Test Author'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Test Author')).toBeInTheDocument();
   });
 
   it('muestra el número total de episodios', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
     expect(
       screen.getByRole('heading', {
@@ -82,54 +66,27 @@ describe('PodcastDetail', () => {
   });
 
   it('renderiza todos los episodios', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
-    expect(
-      screen.getByText('First Episode'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('First Episode')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Second Episode'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Second Episode')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Third Episode'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Third Episode')).toBeInTheDocument();
   });
 
   it('formatea correctamente las fechas de los episodios', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
-    expect(
-      screen.getByText('15/01/2024'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('15/01/2024')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('20/02/2024'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('20/02/2024')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('25/03/2024'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('25/03/2024')).toBeInTheDocument();
   });
 
   it('formatea correctamente las duraciones', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
     expect(screen.getByText('2:05')).toBeInTheDocument();
     expect(screen.getByText('1:01:01')).toBeInTheDocument();
@@ -137,48 +94,29 @@ describe('PodcastDetail', () => {
   });
 
   it('crea el enlace correcto para cada episodio', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={episodes}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={episodes} />);
 
     expect(
       screen.getByRole('link', {
         name: /First Episode/,
       }),
-    ).toHaveAttribute(
-      'href',
-      '/podcast/123/episode/episode-1',
-    );
+    ).toHaveAttribute('href', '/podcast/123/episode/episode-1');
 
     expect(
       screen.getByRole('link', {
         name: /Second Episode/,
       }),
-    ).toHaveAttribute(
-      'href',
-      '/podcast/123/episode/episode-2',
-    );
+    ).toHaveAttribute('href', '/podcast/123/episode/episode-2');
 
     expect(
       screen.getByRole('link', {
         name: /Third Episode/,
       }),
-    ).toHaveAttribute(
-      'href',
-      '/podcast/123/episode/episode-3',
-    );
+    ).toHaveAttribute('href', '/podcast/123/episode/episode-3');
   });
 
   it('muestra cero episodios cuando la lista está vacía', () => {
-    render(
-      <PodcastDetail
-        podcast={podcast}
-        episodes={[]}
-      />,
-    );
+    render(<PodcastDetail podcast={podcast} episodes={[]} />);
 
     expect(
       screen.getByRole('heading', {

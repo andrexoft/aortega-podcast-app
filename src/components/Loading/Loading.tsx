@@ -4,9 +4,7 @@ interface LoadingProps {
 
 import styles from './Loading.module.css';
 
-export function Loading({
-  message = 'Cargando...',
-}: LoadingProps) {
+export function Loading({ message = 'Cargando...' }: LoadingProps) {
   return (
     <div className={styles.container} role="status">
       <span className={styles.spinner} aria-hidden="true" />
