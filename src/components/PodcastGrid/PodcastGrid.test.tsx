@@ -11,6 +11,7 @@ jest.mock('next/image', () => ({
   }: React.ImgHTMLAttributes<HTMLImageElement> & {
     preload?: boolean;
   }) => (
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     <img
       {...props}
       data-priority={preload ? 'true' : 'false'}
